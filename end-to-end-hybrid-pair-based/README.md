@@ -4,69 +4,6 @@ This project implements a hybrid recommendation system focused on user-item inte
 
 This README provides a step-by-step guide to replicate the results obtained from this codebase.
 
-## Project Structure
-
-The expected structure of the project directory is as follows:
-├── data/
-│ ├── raw/ # Optional: Placeholder for original downloaded files
-│ ├── item_meta.csv # <--- REQUIRED INPUT: Raw item metadata
-│ ├── train.csv # <--- REQUIRED INPUT: Training interaction data (user_id, item_id, timestamp, interaction)
-│ ├── test.csv # <--- REQUIRED INPUT: Test interaction data (user_id, item_id, timestamp) - Used for user identification for prediction
-│ ├── sample_submission.csv # <--- REQUIRED INPUT: Defines users for prediction and submission format
-│ ├── dataset/ # Created by construct_beauty_dataset.py
-│ │ └── clean_beauty_item_meta_with_details.csv # Cleaned item metadata
-│ └── intermediate/ # Created by feature_extraction/main.py
-│ ├── X_train_hybrid.npz # Sparse training feature matrix
-│ ├── y_train.csv # Training labels
-│ ├── item_id_to_index.json # Mapping item IDs to matrix indices
-│ ├── index_to_item_id.json # Mapping matrix indices back to item IDs
-│ ├── item_numerical_cols_for_scaling.json # List of numerical item columns used for scaling
-│ ├── item_categorical_cols_for_encoding.json # List of categorical item columns used for encoding
-│ ├── item_binary_cols.json # List of binary item columns
-│ ├── item_original_numerical_cols.json # Original numerical item columns
-│ ├── item_original_nominal_categorical_cols.json # Original nominal categorical item columns
-│ ├── item_details_cols.json # List of detail keys extracted as columns
-│ ├── item_scaler.pkl # Fitted StandardScaler for item numerical features
-│ ├── item_encoder.pkl # Fitted OneHotEncoder for item categorical features
-│ ├── user_features.csv # Extracted user features
-│ ├── user_num_cols_for_scaling.json # List of numerical user columns used for scaling
-│ ├── user_cat_cols_for_encoding.json # List of categorical user columns used for encoding
-│ ├── user_numerical_scaler.pkl # Fitted StandardScaler for user numerical features
-│ ├── user_categorical_encoder.pkl # Fitted OneHotEncoder for user categorical features
-│ └── user_categorical_svd.pkl # Fitted TruncatedSVD for user categorical features (if components > 0)
-│ └── X_items_reduced.npz # Processed item features (sparse, recommended)
-├── visuals/ # Created by eda.py
-│ └── eda/
-│ └── *.png # Various plots from EDA
-├── models/ # Created by training scripts
-│ ├── catboost_model.joblib # Trained CatBoost model
-│ ├── lightgbm_model.joblib # Trained LightGBM model
-│ ├── logistic_regression_model.joblib # Trained Logistic Regression model
-│ └── random_forest_model.joblib # Trained Random Forest model
-├── submissions/ # Created by recommendation scripts
-│ ├── *.csv # Individual model submissions (optional)
-│ └── random_forest_model_lightgbm_model_popular_random_blended_submission.csv # FINAL SUBMISSION
-├── code/ # <--- All Python code is contained here
-│ ├── feature_extraction/
-│ │ ├── main.py # Orchestrates feature extraction pipeline
-│ │ ├── data_loader.py # Loads and merges data
-│ │ ├── pair_generator.py # Generates user-item pairs and user features
-│ │ ├── item_processor.py # Processes item features
-│ │ ├── user_processor.py # Processes user features
-│ │ └── hybrid_matrix_assembler.py # Assembles hybrid feature matrix
-│ ├── train/
-│ │ ├── train_catboost.py
-│ │ ├── train_lightgbm.py
-│ │ ├── train_logistic_regression.py
-│ │ └── train_random_forest.py
-│ ├── recommend/
-│ │ ├── generate_multiple_submissions.py # Generates submissions for each individual trained model
-│ │ └── blended_recommendations.py # Generates the final multi-model blended submission
-│ ├── config.py # IMPORTANT: Project configuration file
-│ ├── construct_beauty_dataset.py # First script: Cleans item metadata
-│ └── eda.py # Optional: Performs EDA
-└── README.md # This file
-
 ## Prerequisites
 
 Before you begin, ensure you have the following installed:
